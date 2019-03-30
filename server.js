@@ -7,6 +7,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import http from 'http';
 import socketIO from 'socket.io';
+
 import logger from './core/logger/app-logger';
 import dbConnection from './db/connect';
 import authMiddleware from './core/middleware/auth';
@@ -16,6 +17,8 @@ import exampleRoute from './routes/example.route';
 import userRoute from './routes/users.route';
 import authRoute from './routes/auth.route';
 import  expressValidator from  'express-validator';
+import RabbitConnectionManager from './core/messaging/rabbitConnectionManager';
+import rabbitHandler from './core/messaging/rabbitHandler';
 
 
 const port = process.env.SERVER_PORT;
@@ -25,7 +28,13 @@ logger.stream = {
   },
 };
 
+let conn = null;
+const rabbitConnection = async () => {
+  conn = await RabbitConnectionManager.getInstance();
+};
+
 dbConnection();
+rabbitConnection();
 
 const app = express();
 
@@ -40,20 +49,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('dev', { stream: logger.stream }));
 app.use(expressValidator());
 
-io.on('connection', (socket) => {
-  console.log('User connected');
+// Consume Messages and 'broadcast' over all open client connections
+const application = io.of('/throner');
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
+application.on('connection', async (socket) => {
+  // console.log('someone connected');
+
+  await rabbitHandler(conn, application, socket);
 });
 
 app.use(verifyLangMiddleware);
 
-const defaultRouter = defaultRoute(router, io);
-const exampleRouter = exampleRoute(router, io);
-const userRouter = userRoute(router, io);
-const authRouter = authRoute(router, io);
+defaultRoute(router, io);
+exampleRoute(router, io);
+userRoute(router, io);
+authRoute(router, io);
 
 app.use(router);
 
