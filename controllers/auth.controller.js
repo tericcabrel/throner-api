@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 import * as crypto from 'crypto';
 import * as bcrypt from 'bcryptjs';
-import config from '../config/jwt';
+import config from '../core/config/jwt';
 import * as jwt from 'jsonwebtoken';
 import User from '../models/users.model';
 import logger from '../core/logger/app-logger';

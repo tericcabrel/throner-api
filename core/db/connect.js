@@ -1,6 +1,6 @@
 import Mongoose from 'mongoose';
-import logger from '../core/logger/app-logger';
-import { DB_CONNECTION_SUCCESS } from '../core/utils/constants';
+import logger from '../logger/app-logger';
+import { DB_CONNECTION_SUCCESS } from '../utils/constants';
 
 Mongoose.Promise = global.Promise;
 

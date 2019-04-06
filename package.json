@@ -1,7 +1,7 @@
 {
-  "name": "express-mongo-mocha-boilerplate",
+  "name": "throner-api",
   "version": "1.0.0",
-  "description": "This is a full stack boilerplate project with ExpressJS + MongoDB + Mocha",
+  "description": "API for drone UI management application",
   "scripts": {
     "start": "nodemon ./server.js --ignore public/ --exec babel-node --presets es2015,stage-2",
     "build": "babel . -d dist --presets es2015,stage-2 --ignore spec.js,node_modules",
@@ -22,7 +22,7 @@
     "Express",
     "Mocha"
   ],
-  "author": "Ulrich Ntela <ulrichsoft2002@gmail.com>",
+  "author": "Eric Cabrel <tericcabrel@yahoo.com>",
   "dependencies": {
     "amqplib": "^0.5.3",
     "bcryptjs": "^2.4.3",

@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import config from '../../config/jwt';
+import config from '../config/jwt';
 
 import {
   NO_TOKEN_PROVIDED,AUTHENTICATION_FAILED,UNAUTHORIZED_MESSAGE

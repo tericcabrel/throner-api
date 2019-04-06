@@ -7,34 +7,20 @@ import cors from 'cors';
 import morgan from 'morgan';
 import http from 'http';
 import socketIO from 'socket.io';
+import expressValidator from 'express-validator';
 
 import logger from './core/logger/app-logger';
-import dbConnection from './db/connect';
-import authMiddleware from './core/middleware/auth';
+import dbConnection from './core/db/connect';
 import verifyLangMiddleware from './core/middleware/verifyLang';
 import defaultRoute from './routes/default.route';
 import exampleRoute from './routes/example.route';
 import userRoute from './routes/users.route';
 import authRoute from './routes/auth.route';
-import  expressValidator from  'express-validator';
-import RabbitConnectionManager from './core/messaging/rabbitConnectionManager';
-import rabbitHandler from './core/messaging/rabbitHandler';
 
 
 const port = process.env.SERVER_PORT;
-logger.stream = {
-  write(message, encoding) {
-    // logger.info(`${message} - ${encoding !== undefined ? encoding.toString() : ''}`);
-  },
-};
-
-let conn = null;
-const rabbitConnection = async () => {
-  conn = await RabbitConnectionManager.getInstance();
-};
 
 dbConnection();
-rabbitConnection();
 
 const app = express();
 
@@ -48,15 +34,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(morgan('dev', { stream: logger.stream }));
 app.use(expressValidator());
-
-// Consume Messages and 'broadcast' over all open client connections
-const application = io.of('/throner');
-
-application.on('connection', async (socket) => {
-  // console.log('someone connected');
-
-  await rabbitHandler(conn, application, socket);
-});
 
 app.use(verifyLangMiddleware);
 

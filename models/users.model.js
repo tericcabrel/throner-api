@@ -7,7 +7,7 @@ const { Schema } = mongoose;
 const UserSchema = new Schema({
   user_id: {
     type: String,
-    default: uuid()
+    default: uuid(),
   },
   name: {
     type: String,
