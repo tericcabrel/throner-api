@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ul2002/express-mongo-mocha-boilerplate.git"
+    "url": "ssh://51.38.189.0:7893/home/git/thronerapi.git"
   },
   "keywords": [
     "Node.js",

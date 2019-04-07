@@ -41,35 +41,35 @@ const UserSchema = new Schema({
   avatar: String,
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at', resetPasswordExpires: 'reset_password_expires' }, collection: 'users' });
 
-const UsersModel = mongoose.model('User', UserSchema);
+const UserModel = mongoose.model('User', UserSchema);
 
-export const cleanCollection = () => UsersModel.remove({}).exec();
+export const cleanCollection = () => UserModel.remove({}).exec();
 
-UsersModel.getAll = () => {
-  return UsersModel.find({}).sort('-created_at').exec();
+UserModel.getAll = () => {
+  return UserModel.find({}).sort('-created_at').exec();
 };
 
-UsersModel.add = (user) => {
+UserModel.add = (user) => {
   return user.save();
 };
 
-UsersModel.delete = (id) => {
-  return UsersModel.remove({ user_id: id });
+UserModel.delete = (id) => {
+  return UserModel.remove({ user_id: id });
 };
 
-UsersModel.get = (id) => {
-  return UsersModel.findOne({ user_id: id });
+UserModel.get = (id) => {
+  return UserModel.findOne({ user_id: id });
 };
 
-UsersModel.change = (id, data) => {
-  return UsersModel.findOneAndUpdate({ user_id: id }, data);
+UserModel.change = (id, data) => {
+  return UserModel.findOneAndUpdate({ user_id: id }, data);
 };
 
-UsersModel.getBy = (param) => {
-  return UsersModel.find(param);
+UserModel.getBy = (param) => {
+  return UserModel.find(param);
 };
 
-UsersModel.updateParams = [
+UserModel.updateParams = [
   'name',
   'username',
   'email',
@@ -78,4 +78,4 @@ UsersModel.updateParams = [
   'avatar',
 ];
 
-export default UsersModel;
+export default UserModel;

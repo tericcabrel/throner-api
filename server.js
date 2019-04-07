@@ -6,15 +6,18 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 import http from 'http';
-import socketIO from 'socket.io';
 import expressValidator from 'express-validator';
+// import socketIO from 'socket.io';
 
+// Utilities
 import logger from './core/logger/app-logger';
 import dbConnection from './core/db/connect';
 import verifyLangMiddleware from './core/middleware/verifyLang';
+
+// Routes
 import defaultRoute from './routes/default.route';
-import exampleRoute from './routes/example.route';
-import userRoute from './routes/users.route';
+import pictureRoute from './routes/picture.route';
+import userRoute from './routes/user.route';
 import authRoute from './routes/auth.route';
 
 
@@ -25,7 +28,7 @@ dbConnection();
 const app = express();
 
 const server = http.createServer(app);
-const io = socketIO(server);
+// const io = socketIO(server);
 const router = express.Router();
 
 app.use(cors());
@@ -37,10 +40,10 @@ app.use(expressValidator());
 
 app.use(verifyLangMiddleware);
 
-defaultRoute(router, io);
-exampleRoute(router, io);
-userRoute(router, io);
-authRoute(router, io);
+defaultRoute(router);
+pictureRoute(router);
+userRoute(router);
+authRoute(router);
 
 app.use(router);
 

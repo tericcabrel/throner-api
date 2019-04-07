@@ -1,36 +1,34 @@
 import uuid from 'uuid/v4';
 import * as crypto from 'crypto';
 import * as bcrypt from 'bcryptjs';
-import config from '../core/config/jwt';
 import * as jwt from 'jsonwebtoken';
-import User from '../models/users.model';
+
+import config from '../core/config/jwt';
+
+import User from '../models/user.model';
 import logger from '../core/logger/app-logger';
 import smtpTransport from '../core/mailer/app-mailer';
 import { parseRequest } from '../core/utils/helpers';
-
-import {
-  DEV_FIND_FAILED,PROD_FIND_FAILED,NO_TOKEN_PROVIDED,AUTHENTICATION_FAILED,USER_NOT_FOUND,
-  MAIL_FAILED,RESET_PASSWORD_SUCCESS,RESET_PASSWORD_FAILED,MAIL_SUCCESS,RESET_PASSWORD_EXPIRED
-} from '../core/utils/constants';
+import { INTERNAL_ERROR } from '../core/utils/constants';
 
 const controller = {};
 
 controller.login = async (req, res) => {
-    try {
-      User.findOne({ email: req.body.email }, function (err, user) {
-        if (err) return res.status(500).send(DEV_FIND_FAILED);
-        if (!user) return res.status(404).send(USER_NOT_FOUND);
-        var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-        if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
-        var token = jwt.sign({ id: user.user_id }, config.secret, {
-          expiresIn: config.expiresIn 
-        });
-        res.status(200).send({ auth: true, user_id : user.user_id, token: token });
+  try {
+    User.findOne({ email: req.body.email }, function (err, user) {
+      if (err) return res.status(500).send(INTERNAL_ERROR);
+      if (!user) return res.status(404).send(USER_NOT_FOUND);
+      var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+      if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
+      var token = jwt.sign({ id: user.user_id }, config.secret, {
+        expiresIn: config.expiresIn
       });
-    } catch (err) {
-      logger.error(`${DEV_FIND_FAILED} auth- ${err}`);
-      res.status(400).json({ error: `${PROD_FIND_FAILED} auth` });
-    }
+      res.status(200).send({ auth: true, user_id : user.user_id, token: token });
+    });
+  } catch (err) {
+    logger.error(err);
+    res.status(400).json({ error: INTERNAL_ERROR });
+  }
 };
 
 controller.forgotPassword = async (req, res) => {
@@ -97,7 +95,7 @@ controller.me = async (req, res) => {
       jwt.verify(token, config.secret, function(err, decoded) {
         if (err) 
           return res.status(400).json({ auth: false, message: AUTHENTICATION_FAILED });
-        user = User.findOne({user_id: decoded.id}, { password: 0 });
+        const user = User.findOne({user_id: decoded.id}, { password: 0 });
         res.json(user);
       });
     } catch (err) {
