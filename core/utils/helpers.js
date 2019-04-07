@@ -72,3 +72,20 @@ export const getBaseUrlFromRequest = (req) => {
   const port = isValidIPV4Address(req.hostname) || req.hostname === 'localhost' ? `:${process.env.SERVER_PORT}` : '';
   return `${req.protocol}://${req.hostname}${port}`;
 };
+
+export const randomStr = (n = 12) => {
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  let nChar = 24;
+
+  if (n !== undefined) {
+    nChar = n;
+  }
+
+  for (let i = 0; i < nChar; i += 1) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+
+  return text;
+};

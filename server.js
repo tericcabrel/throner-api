@@ -16,9 +16,10 @@ import verifyLangMiddleware from './core/middleware/verifyLang';
 
 // Routes
 import defaultRoute from './routes/default.route';
-import pictureRoute from './routes/picture.route';
-import userRoute from './routes/user.route';
 import authRoute from './routes/auth.route';
+import userRoute from './routes/user.route';
+import pictureRoute from './routes/picture.route';
+import sessionRoute from './routes/session.route';
 
 
 const port = process.env.SERVER_PORT;
@@ -41,9 +42,10 @@ app.use(expressValidator());
 app.use(verifyLangMiddleware);
 
 defaultRoute(router);
-pictureRoute(router);
-userRoute(router);
 authRoute(router);
+userRoute(router);
+pictureRoute(router);
+sessionRoute(router);
 
 app.use(router);
 
