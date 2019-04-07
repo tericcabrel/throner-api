@@ -20,6 +20,7 @@ import authRoute from './routes/auth.route';
 import userRoute from './routes/user.route';
 import pictureRoute from './routes/picture.route';
 import sessionRoute from './routes/session.route';
+import positionRoute from './routes/position.route';
 
 
 const port = process.env.SERVER_PORT;
@@ -46,6 +47,7 @@ authRoute(router);
 userRoute(router);
 pictureRoute(router);
 sessionRoute(router);
+positionRoute(router);
 
 app.use(router);
 
