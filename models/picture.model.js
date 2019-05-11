@@ -7,6 +7,19 @@ const PictureSchema = new Schema({
     type: String,
     required: true,
   },
+  originalname: {
+    type: String,
+    required: true,
+  },
+  size: {
+    type: Number,
+    required: true,
+  },
+  mimetype: {
+    type: String,
+    required: false,
+    default: null,
+  },
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   collection: 'pictures',
@@ -49,10 +62,13 @@ PictureModel.bulkDelete = (param) => {
 };
 
 PictureModel.toJSON = (appUrl, picture) => {
-  const { _id, name, created_at, updated_at } = picture;
+  const { _id, name, originalname, size, mimetype, created_at, updated_at } = picture;
   return {
     _id,
     name: `${appUrl}/uploads/pictures/${name}`,
+    originalname,
+    size,
+    mimetype,
     created_at,
     updated_at,
   };
@@ -60,6 +76,9 @@ PictureModel.toJSON = (appUrl, picture) => {
 
 PictureModel.updateParams = [
   'name',
+  'originalname',
+  'size',
+  'mimetype',
 ];
 
 export default PictureModel;

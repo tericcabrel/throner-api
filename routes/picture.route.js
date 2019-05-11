@@ -11,6 +11,10 @@ const routes = (router) => {
     return controller.update(req, res);
   }); */
 
+  router.post(`${prefix}/upload`, (req, res) => {
+    return controller.upload(req, res);
+  });
+
   router.delete(`${prefix}/:id`, (req, res) => {
     return controller.delete(req, res);
   });

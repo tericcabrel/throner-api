@@ -12,3 +12,5 @@ export const LOGIN_FAILED = 'Email or password is incorrect';
 export const PASSWORD_NOT_MATCH = 'Your current password is not correct!';
 
 export const regexIpAddress = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+
+export const PICTURE_UPLOAD_PATH = './public/uploads/pictures';

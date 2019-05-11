@@ -1,12 +1,9 @@
 import * as fs from 'fs';
 import moment from 'moment';
 import * as path from 'path';
-import * as crypto from 'crypto';
 import * as bcrypt from 'bcryptjs';
 
 import { regexIpAddress } from './constants';
-
-const uploadHandler = require('./uploadHandler');
 
 export const parseRequest = (requestBody, objectKeys) => {
   const result = {};
@@ -45,19 +42,6 @@ export const deleteFile = (filePath) => {
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
   }
-};
-
-export const uploadFile = async (req, res) => {
-  const promise = new Promise((resolve, reject) => {
-    uploadHandler(req, res, (error) => {
-      if (error) {
-        return reject(error);
-      }
-      return resolve(req.file);
-    });
-  });
-  
-  return await promise;
 };
 
 export const existMessage = (modelName) => {

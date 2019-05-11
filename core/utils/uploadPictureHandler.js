@@ -1,10 +1,11 @@
 import * as path from 'path';
+import { PICTURE_UPLOAD_PATH } from '../utils/constants';
 
 const multer = require('multer');
 
 /** Storage Engine */
 const storageEngine = multer.diskStorage({
-  destination: './public/uploads',
+  destination: PICTURE_UPLOAD_PATH,
   filename(req, file, fn) {
     fn(null, `${new Date().getTime().toString()}-${file.fieldname}${path.extname(file.originalname)}`);
   },
@@ -18,15 +19,16 @@ const upload = multer({
   fileFilter(req, file, callback) {
     validateFile(file, callback);
   },
-}).single('file');
+}).single('picture');
 
-const validateFile = (file, cb) => {
-  const extension = (path.extname(file.originalname).toLowerCase() === '.json' || path.extname(file.originalname).toLowerCase() === '.csv');
-  const mimeType = (file.mimetype.indexOf('json') > 0 || file.mimetype.indexOf('csv') > 0);
-  if (extension) {
+const validateFile = function (file, cb) {
+  const extension = ['.jpg', '.jpeg', '.png'].indexOf(path.extname(file.originalname).toLowerCase()) >= 0;
+  const mimeType = ['image/jpg', 'image/jpeg', 'image/png'].indexOf(file.mimetype.toLowerCase()) >= 0;
+
+  if (extension && mimeType) {
     return cb(null, true);
-  } 
-  cb('Invalid file type. Only JSON and CSV file are allowed !');
+  }
+  return cb({ code: 1, message: 'The file is not valid!' });
 };
 
 module.exports = upload;
