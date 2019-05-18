@@ -8,6 +8,7 @@ import SessionModel from '../models/session.model';
 import logger from '../core/logger/app-logger';
 import { DELETE_SUCCESS, INTERNAL_ERROR } from '../core/utils/constants';
 import { randomStr } from '../core/utils/helpers';
+import PositionModel from '../models/position.model';
 
 const controller = {};
 
@@ -42,7 +43,11 @@ controller.delete = async (req, res) => {
 controller.getById = async (req, res) => {
   try {
     const session = await SessionModel.get(req.params.id);
-    return res.json(session);
+    const { _id, name, created_at, updated_at } = session;
+    const result = { _id, name, created_at, updated_at };
+    result.positions = await PositionModel.getBy({ session: _id });
+
+    return res.json(result);
   } catch (err) {
     logger.error(err.stack);
     return res.status(500).json({ error: INTERNAL_ERROR });

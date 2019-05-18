@@ -50,7 +50,7 @@ controller.create = async (req, res) => {
 
     if (!currentSession) {
       logger.error(`Unable to save position: ${JSON.stringify({ lat, lon, alt })}`);
-      return res.status(500).json({ error: INTERNAL_ERROR });
+      return res.status(400).json({ error: INTERNAL_ERROR });
     }
 
     const dateNow = moment().toDate();
