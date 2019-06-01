@@ -37,7 +37,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(morgan('dev', { stream: logger.stream }));
 app.use(expressValidator());
 
 app.use(verifyLangMiddleware);
