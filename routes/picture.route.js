@@ -26,6 +26,10 @@ const routes = (router) => {
   router.get(`${prefix}`, (req, res) => {
     return controller.getAll(req, res);
   });
+
+  router.delete(`${prefix}`, (req, res) => {
+    return controller.deleteAll(req, res);
+  });
 };
 
 export default routes;

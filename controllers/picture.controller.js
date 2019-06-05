@@ -3,7 +3,7 @@ import moment from 'moment';
 import * as path from 'path';
 
 // Models
-import PictureModel from '../models/picture.model';
+import PictureModel, { cleanCollection } from '../models/picture.model';
 
 // Functions
 import logger from '../core/logger/app-logger';
@@ -124,6 +124,16 @@ controller.getAll = async (req, res) => {
     const result = pictures.map(item => PictureModel.toJSON(appUrl, item));
 
     return res.json(result);
+  } catch (err) {
+    logger.error(err.stack);
+    return res.status(500).json({ error: INTERNAL_ERROR });
+  }
+};
+
+controller.deleteAll = async (req, res) => {
+  try {
+    await cleanCollection();
+    return res.json({ message: `Picture ${DELETE_SUCCESS}` });
   } catch (err) {
     logger.error(err.stack);
     return res.status(500).json({ error: INTERNAL_ERROR });
