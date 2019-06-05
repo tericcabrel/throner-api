@@ -132,6 +132,11 @@ controller.getAll = async (req, res) => {
 
 controller.deleteAll = async (req, res) => {
   try {
+    const pictures = await PictureModel.getAll();
+    pictures.forEach((picture) => {
+      const fullPath = path.join(__dirname, `.${PICTURE_UPLOAD_PATH}/${picture.name}`);
+      deleteFile(fullPath);
+    });
     await cleanCollection();
     return res.json({ message: `Picture ${DELETE_SUCCESS}` });
   } catch (err) {
