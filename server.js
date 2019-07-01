@@ -21,6 +21,10 @@ import userRoute from './routes/user.route';
 import pictureRoute from './routes/picture.route';
 import sessionRoute from './routes/session.route';
 import positionRoute from './routes/position.route';
+import settingRoute from './routes/setting.route';
+
+// Controllers
+import settingController from './controllers/setting.controller';
 
 
 const port = process.env.SERVER_PORT;
@@ -47,9 +51,12 @@ userRoute(router);
 pictureRoute(router);
 sessionRoute(router);
 positionRoute(router);
+settingRoute(router);
 
 app.use(router);
 
-server.listen(port, () => {
+server.listen(port, async () => {
   logger.info(`Server started - ${port}`, 1);
+
+  await settingController.init();
 });
