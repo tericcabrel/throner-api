@@ -15,7 +15,7 @@ const controller = {};
 
 controller.create = async (req, res) => {
   try {
-    const ip = req.connection.remoteAddress;
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const info = ua.parse(req.headers['user-agent']);
     const dateNow = moment().toDate();
 
