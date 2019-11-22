@@ -22,6 +22,7 @@ import pictureRoute from './routes/picture.route';
 import sessionRoute from './routes/session.route';
 import positionRoute from './routes/position.route';
 import settingRoute from './routes/setting.route';
+import crushRoute from './routes/crush.route';
 
 // Controllers
 import settingController from './controllers/setting.controller';
@@ -52,6 +53,7 @@ pictureRoute(router);
 sessionRoute(router);
 positionRoute(router);
 settingRoute(router);
+crushRoute(router);
 
 app.use(router);
 
