@@ -1,56 +1,29 @@
-# express-mongo-mocha-boilerplate
+# Throner API
 
-This is a full stack boilerplate project with ExpressJS + MongoDB + Mocha
+REST API with Node.js and MongoDB to manage data for Throner project
 
-+ express
-+ mongoose
-+ babel-cli
-+ winston and morgan for logging
-+ Async/Await
-+ mocha
+### Description
+It's expose CRUD endpoints for the following resources:
 
-## Installation
+* **Pictures:** Store pictures taken with the camera of the drone and give the ability to retrieve them
+* **Position** Receive drone position periodically and store in the database. We will retrieve them after to display the path on Google Maps
+* **Settings:** Save drone configuration like Stream URL who contains the URL to stream camera of the drone through the web
 
-Clone the repository and run `npm install`
-
+### Installation
 ```
-git clone https://github.com/ul2002/express-mongo-mocha-boilerplate.git
-npm install
+git clone https://github.com/tericcabrel/throner-api.git
+yarn install
+cp .env.example .env
+nano .env
 ```
 
-## Starting the server
-
+### Start the server
 ```
-npm start
+yarn start
 ```
 
 The server will run on port 5991. You can change this by editing `.env` file.
 
-## Run server in production with Docker
-
-```
-npm run build
-```
-## Run Api Designer
-
-```
-npm run api-designer
-```
-## Run Tests
-
-```
-npm test
-```
-
-
-After npm building the project, go to project root directory, open shell and run:
-```
-docker build -t express-mongo-mocha-boilerplate .
-```
-
-Instructions about running the container are available [here](https://hub.docker.com/r/tomyitav/express-es6-starter/)
-
-## Debugging with Webstorm
-
-Set babel-node executable as the node interpreter.
-Pass node parameters of --preset=babel-preset-es2015
+### Project
+To view all the repositories involved on this project, follow the link below<br>
+[View Throner project](https://github.com/tericcabrel/throner)
